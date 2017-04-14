@@ -23,4 +23,9 @@
         <item name="android:button">@drawable/selector_item_checked</item>
     </style>
 
+    <!--<style name="popwin_anim_style">-->
+        <!--<item name="android:windowEnterAnimation">@anim/bottom_in</item>-->
+        <!--<item name="android:windowExitAnimation">@anim/bottom_out</item>-->
+    <!--</style>-->
+
 </resources>

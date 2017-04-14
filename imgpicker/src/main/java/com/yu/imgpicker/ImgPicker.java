@@ -4,8 +4,9 @@ import com.yu.imgpicker.core.ImgSelConfig;
 import com.yu.imgpicker.entity.ImageFolder;
 import com.yu.imgpicker.entity.ImageItem;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by yu on 2017/4/13.
@@ -16,8 +17,7 @@ public class ImgPicker {
     private ImgSelConfig mConfig;
 
     private List<ImageFolder> mImageFolders;      //所有的图片文件夹
-    private ArrayList<ImageItem> mSelectedImages = new ArrayList<>();   //选中的图片集合
-
+    private Set<ImageItem> mSelectedImages = new HashSet<>();   //选中的图片集合
 
     public static ImgPicker getInstance() {
         return InstanceHolder.INSTANCE;
@@ -31,6 +31,10 @@ public class ImgPicker {
         return mConfig;
     }
 
+    public void setConfig(ImgSelConfig mConfig) {
+        this.mConfig = mConfig;
+    }
+
     public List<ImageFolder> getImageFolders() {
         return mImageFolders;
     }
@@ -39,7 +43,8 @@ public class ImgPicker {
         this.mImageFolders = mImageFolders;
     }
 
-    public ArrayList<ImageItem> getSelectedImages() {
+    public Set<ImageItem> getSelectedImages() {
         return mSelectedImages;
     }
+
 }

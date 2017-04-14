@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.yu.imgpicker.ui.widget.SquareRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/iv_thumb"
+        android:id="@+id/ivThumb"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
@@ -18,13 +18,10 @@
         android:background="#88000000"
         android:visibility="gone" />
 
-    <com.lzy.imagepicker.view.SuperCheckBox
-        android:id="@+id/cb_check"
+    <com.yu.imgpicker.ui.widget.SuperCheckBox
+        android:id="@+id/cbCheck"
         style="@style/SuperCheckboxTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|right"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp" />
-</FrameLayout>
+        android:layout_alignParentRight="true" />
+</com.yu.imgpicker.ui.widget.SquareRelativeLayout>

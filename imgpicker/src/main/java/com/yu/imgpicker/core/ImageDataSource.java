@@ -123,6 +123,7 @@ public class ImageDataSource implements LoaderManager.LoaderCallbacks<Cursor> {
                 allImagesFolder.path = "/";
                 allImagesFolder.cover = allImages.get(0);
                 allImagesFolder.images = allImages;
+                allImagesFolder.selected = true;
                 imageFolders.add(0, allImagesFolder);  //确保第一条是所有图片
             }
         }

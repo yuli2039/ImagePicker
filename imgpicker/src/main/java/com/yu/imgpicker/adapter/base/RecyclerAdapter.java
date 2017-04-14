@@ -51,23 +51,6 @@ public abstract class RecyclerAdapter<D> extends RecyclerView.Adapter<ViewHolder
         setupItemLongClickListener(holder, position);
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return getLayoutIndex(position, mDataSet.get(position));
-    }
-
-    /**
-     * 指定item布局样式在layoutIds的索引。默认为第一个
-     * 多条目类型时复写此方法
-     *
-     * @param position 角标
-     * @param item     对象
-     * @return 该item使用第几个layoutId
-     */
-    public int getLayoutIndex(int position, D item) {
-        return 0;
-    }
-
     /**
      * 绑定数据到Item View上
      *

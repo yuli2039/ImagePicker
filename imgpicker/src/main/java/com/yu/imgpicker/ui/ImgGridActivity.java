@@ -7,28 +7,37 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
+import com.yu.imgpicker.core.OnSelectedListSizeChangeListener;
 import com.yu.imgpicker.R;
+import com.yu.imgpicker.adapter.ImgFolderAdapter;
+import com.yu.imgpicker.adapter.ImgGridAdapter;
+import com.yu.imgpicker.adapter.base.RecyclerAdapter;
 import com.yu.imgpicker.core.ImageDataSource;
 import com.yu.imgpicker.entity.ImageFolder;
+import com.yu.imgpicker.ui.widget.FolderPopUpWindow;
 
 import java.util.List;
 
 /**
  * Created by yu on 2017/4/13.
  */
-
 public class ImgGridActivity extends ImageBaseActivity implements View.OnClickListener {
 
     public static final int REQUEST_PERMISSION_STORAGE = 0x01;
     public static final int REQUEST_PERMISSION_CAMERA = 0x02;
 
+    private RelativeLayout mFolderRoot;
     private Button mBtnOk;
     private Button mBtnDir;
     private Button mBtnPre;
-    private RecyclerView mRecyclerView;
+    private ImgGridAdapter mGridAdapter;
+    private ImgFolderAdapter mFolderAdapter;
+    private FolderPopUpWindow mFolderPopUpWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +56,14 @@ public class ImgGridActivity extends ImageBaseActivity implements View.OnClickLi
 
     private void initView() {
         findViewById(R.id.btnBack).setOnClickListener(this);
+        mFolderRoot = (RelativeLayout) findViewById(R.id.rlFolderRoot);
         mBtnOk = (Button) findViewById(R.id.btnOk);
         mBtnOk.setOnClickListener(this);
         mBtnDir = (Button) findViewById(R.id.btnDir);
         mBtnDir.setOnClickListener(this);
         mBtnPre = (Button) findViewById(R.id.btnPreview);
         mBtnPre.setOnClickListener(this);
+        setSelectNumber();
 
         if (mConfig.multiSelect) {
             mBtnOk.setVisibility(View.VISIBLE);
@@ -62,11 +73,49 @@ public class ImgGridActivity extends ImageBaseActivity implements View.OnClickLi
             mBtnPre.setVisibility(View.GONE);
         }
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        // 设置recyclerview
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-//        mRecyclerView.setAdapter();// TODO: 2017/4/13  
 
+        mGridAdapter = new ImgGridAdapter(this, null);
+        mGridAdapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position, Object item) {
+                // TODO: 2017/4/14 跳转预览页面选择
+            }
+        });
+        mGridAdapter.setOnSelectedListSizeChangeListener(new OnSelectedListSizeChangeListener() {
+            @Override
+            public void onChange() {
+                setSelectNumber();
+            }
+        });
+        mRecyclerView.setAdapter(mGridAdapter);
+
+        // 设置文件夹选择弹窗
+        mFolderAdapter = new ImgFolderAdapter(this, null);
+        mFolderPopUpWindow = new FolderPopUpWindow(this, mFolderAdapter);
+        mFolderPopUpWindow.setOnItemClickListener(new FolderPopUpWindow.OnItemClickListener() {
+            @Override
+            public void onItemClick(ImageFolder folder) {
+                mGridAdapter.refreshWithNewData(folder.images);
+                mBtnDir.setText(folder.name);
+            }
+        });
+    }
+
+    private void setSelectNumber() {
+        if (mImgPicker.getSelectedImages().size() == 0) {
+            mBtnOk.setText("完成");
+            mBtnOk.setClickable(false);
+            mBtnPre.setClickable(false);
+        } else {
+            mBtnOk.setText(String.format("完成(%d/%d)", mImgPicker.getSelectedImages().size(), mConfig.maxNum));
+            mBtnOk.setClickable(true);
+            mBtnPre.setClickable(true);
+        }
+        mBtnPre.setText(String.format("预览(%d)", mImgPicker.getSelectedImages().size()));
     }
 
     @Override
@@ -94,9 +143,9 @@ public class ImgGridActivity extends ImageBaseActivity implements View.OnClickLi
         new ImageDataSource(this, null, new ImageDataSource.OnImagesLoadedListener() {
             @Override
             public void onImagesLoaded(List<ImageFolder> imageFolders) {
-                // TODO: 2017/4/13
                 mImgPicker.setImageFolders(imageFolders);
-
+                mFolderAdapter.refreshWithNewData(imageFolders);
+                mGridAdapter.refreshWithNewData(imageFolders.get(0).images);
             }
         }).loadImages();
     }
@@ -107,9 +156,9 @@ public class ImgGridActivity extends ImageBaseActivity implements View.OnClickLi
         if (i == R.id.btnBack) {
             finish();
         } else if (i == R.id.btnDir) {
-
+            mFolderPopUpWindow.showAtLocation(mFolderRoot, Gravity.BOTTOM, 0, 0);
         } else if (i == R.id.btnPreview) {
-
+            // TODO: 2017/4/14 预览
         }
     }
 }

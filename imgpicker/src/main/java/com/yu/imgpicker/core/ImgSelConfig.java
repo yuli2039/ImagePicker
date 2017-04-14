@@ -41,15 +41,15 @@ public class ImgSelConfig {
      */
     public int aspectX = 1;
     public int aspectY = 1;
-    public int outputX = 500;
-    public int outputY = 500;
+    public int outputX = 400;
+    public int outputY = 400;
 
     public ImgSelConfig(Builder builder) {
         this.needCrop = builder.needCrop;
         this.multiSelect = builder.multiSelect;
         this.rememberSelected = builder.rememberSelected;
         this.maxNum = builder.maxNum;
-        this.showCamera = builder.needCamera;
+        this.showCamera = builder.showCamera;
         this.statusBarColor = builder.statusBarColor;
         this.backResId = builder.backResId;
         this.title = builder.title;
@@ -73,7 +73,7 @@ public class ImgSelConfig {
         private boolean multiSelect = true;
         private boolean rememberSelected = true;
         private int maxNum = 9;
-        private boolean needCamera = true;
+        private boolean showCamera = true;
         private int statusBarColor = -1;
         private int backResId = -1;
         private String title;
@@ -132,8 +132,8 @@ public class ImgSelConfig {
             return this;
         }
 
-        public Builder needCamera(boolean needCamera) {
-            this.needCamera = needCamera;
+        public Builder showCamera(boolean needCamera) {
+            this.showCamera = needCamera;
             return this;
         }
 
