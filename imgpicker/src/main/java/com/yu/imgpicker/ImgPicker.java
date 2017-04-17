@@ -1,8 +1,12 @@
 package com.yu.imgpicker;
 
+import android.app.Activity;
+import android.content.Intent;
+
 import com.yu.imgpicker.core.ImgSelConfig;
 import com.yu.imgpicker.entity.ImageFolder;
 import com.yu.imgpicker.entity.ImageItem;
+import com.yu.imgpicker.ui.ImgGridActivity;
 
 import java.util.HashSet;
 import java.util.List;
@@ -47,4 +51,8 @@ public class ImgPicker {
         return mSelectedImages;
     }
 
+    // ***********************************************************
+    public void launch(Activity context) {
+        context.startActivity(new Intent(context, ImgGridActivity.class));
+    }
 }

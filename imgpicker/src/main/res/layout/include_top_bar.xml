@@ -25,7 +25,7 @@
         android:background="#cc111111" />
 
     <TextView
-        android:id="@+id/tv_des"
+        android:id="@+id/tvDes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -36,7 +36,7 @@
         android:textSize="16sp" />
 
     <ImageView
-        android:id="@+id/btn_del"
+        android:id="@+id/btnDel"
         android:layout_width="48dp"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
@@ -50,16 +50,17 @@
         android:id="@+id/btnOk"
         android:layout_width="84dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="15dp"
-        android:background="@android:color/transparent"
+        android:layout_marginRight="17dp"
+        android:background="@drawable/selector_btn_ok"
         android:minHeight="30dp"
         android:minWidth="50dp"
         android:padding="8dp"
         android:text="完成(3/9)"
         android:textColor="#ffffff"
-        android:textSize="14dp" />
+        android:textSize="14dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="17dp" />
 
 </RelativeLayout>

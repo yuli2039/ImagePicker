@@ -66,7 +66,7 @@ public abstract class RecyclerAdapter<D> extends RecyclerView.Adapter<ViewHolder
             public void onClick(View v) {
                 if (mOnItemClickListener != null) {
                     int pos = viewHolder.getLayoutPosition();
-                    mOnItemClickListener.onItemClick(pos, mDataSet.get(pos));
+                    mOnItemClickListener.onItemClick(pos, getItem(pos));
                 }
             }
         });
@@ -79,11 +79,15 @@ public abstract class RecyclerAdapter<D> extends RecyclerView.Adapter<ViewHolder
             public boolean onLongClick(View view) {
                 if (mOnItemLongClickListener != null) {
                     int pos = viewHolder.getLayoutPosition();
-                    mOnItemLongClickListener.onItemLongClick(pos, mDataSet.get(pos));
+                    mOnItemLongClickListener.onItemLongClick(pos, getItem(pos));
                 }
                 return false;
             }
         });
+    }
+
+    public List<D> getDataSet() {
+        return mDataSet;
     }
 
     @Override

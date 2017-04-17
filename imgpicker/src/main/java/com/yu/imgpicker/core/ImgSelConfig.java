@@ -3,6 +3,9 @@ package com.yu.imgpicker.core;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Environment;
+import android.support.annotation.ColorInt;
+import android.support.annotation.IdRes;
+import android.support.annotation.IntRange;
 
 import com.yu.imgpicker.R;
 import com.yu.imgpicker.utils.FileUtils;
@@ -15,9 +18,8 @@ import java.io.Serializable;
 public class ImgSelConfig {
 
     public boolean needCrop;                    // 是否需要裁剪
-    public boolean multiSelect = true;          // 多选
     public boolean rememberSelected = true;     // 是否记住上次的选中记录(只对多选有效)
-    public int maxNum = 9;                      // 最多选择图片数
+    public int limited = 9;                      // 最多选择图片数
     public boolean showCamera;                  // 第一个item是否显示相机
     public int statusBarColor = -1;             // 状态栏颜色
 
@@ -35,6 +37,7 @@ public class ImgSelConfig {
 
     public String filePath;                     // 拍照存储路径
     public ImageLoader loader;                  // 自定义图片加载器
+    public OnSelectListener listener;           // 选择完成的回调;
 
     /*
      * 裁剪输出大小
@@ -46,9 +49,8 @@ public class ImgSelConfig {
 
     public ImgSelConfig(Builder builder) {
         this.needCrop = builder.needCrop;
-        this.multiSelect = builder.multiSelect;
         this.rememberSelected = builder.rememberSelected;
-        this.maxNum = builder.maxNum;
+        this.limited = builder.limited;
         this.showCamera = builder.showCamera;
         this.statusBarColor = builder.statusBarColor;
         this.backResId = builder.backResId;
@@ -65,14 +67,14 @@ public class ImgSelConfig {
         this.aspectY = builder.aspectY;
         this.outputX = builder.outputX;
         this.outputY = builder.outputY;
+        this.listener = builder.listener;
     }
 
     public static class Builder implements Serializable {
 
         private boolean needCrop = false;
-        private boolean multiSelect = true;
         private boolean rememberSelected = true;
-        private int maxNum = 9;
+        private int limited = 9;
         private boolean showCamera = true;
         private int statusBarColor = -1;
         private int backResId = -1;
@@ -85,14 +87,14 @@ public class ImgSelConfig {
         private String allImagesText;
         private String filePath;
         private ImageLoader loader;
+        private OnSelectListener listener;
 
         private int aspectX = 1;
         private int aspectY = 1;
         private int outputX = 400;
         private int outputY = 400;
 
-        public Builder(Context context, ImageLoader loader) {
-            this.loader = loader;
+        public Builder(Context context) {
 
             if (FileUtils.isSdCardAvailable())
                 filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Camera";
@@ -112,13 +114,17 @@ public class ImgSelConfig {
             FileUtils.createDir(filePath);
         }
 
-        public Builder needCrop(boolean needCrop) {
-            this.needCrop = needCrop;
+        public Builder imageLoader(ImageLoader loader) {
+            this.loader = loader;
+            return this;
+        }
+        public Builder callback(OnSelectListener listener) {
+            this.listener = listener;
             return this;
         }
 
-        public Builder multiSelect(boolean multiSelect) {
-            this.multiSelect = multiSelect;
+        public Builder needCrop(boolean needCrop) {
+            this.needCrop = needCrop;
             return this;
         }
 
@@ -127,8 +133,8 @@ public class ImgSelConfig {
             return this;
         }
 
-        public Builder maxNum(int maxNum) {
-            this.maxNum = maxNum;
+        public Builder limited(@IntRange(from = 1, to = 9) int maxNum) {
+            this.limited = maxNum;
             return this;
         }
 
@@ -137,12 +143,12 @@ public class ImgSelConfig {
             return this;
         }
 
-        public Builder statusBarColor(int statusBarColor) {
+        public Builder statusBarColor(@ColorInt int statusBarColor) {
             this.statusBarColor = statusBarColor;
             return this;
         }
 
-        public Builder backResId(int backResId) {
+        public Builder backResId(@IdRes int backResId) {
             this.backResId = backResId;
             return this;
         }
@@ -152,12 +158,12 @@ public class ImgSelConfig {
             return this;
         }
 
-        public Builder titleColor(int titleColor) {
+        public Builder titleColor(@ColorInt int titleColor) {
             this.titleColor = titleColor;
             return this;
         }
 
-        public Builder titleBgColor(int titleBgColor) {
+        public Builder titleBgColor(@ColorInt int titleBgColor) {
             this.titleBgColor = titleBgColor;
             return this;
         }
@@ -167,12 +173,12 @@ public class ImgSelConfig {
             return this;
         }
 
-        public Builder btnTextColor(int btnTextColor) {
+        public Builder btnTextColor(@ColorInt int btnTextColor) {
             this.btnTextColor = btnTextColor;
             return this;
         }
 
-        public Builder btnBgColor(int btnBgColor) {
+        public Builder btnBgColor(@ColorInt int btnBgColor) {
             this.btnBgColor = btnBgColor;
             return this;
         }

@@ -4,6 +4,10 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+
+    <color name="C1">#2dbc6d</color>
+    <color name="C2">#1a683c</color>
+
     <color name="theme_body">#cc22292c</color>
     <color name="black">#000000</color>
     <color name="status_bar">#303135</color>

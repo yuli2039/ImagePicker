@@ -10,6 +10,23 @@
             android:name=".ui.ImgGridActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/ImagePickerTheme" />
+
+        <activity
+            android:name=".ui.ImagePreviewActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/ImagePickerTheme" />
+
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.yu.imgpicker.fileprovider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
     </application>
 
 </manifest>

@@ -10,6 +10,7 @@ import com.yu.imgpicker.core.ImgSelConfig;
 import com.yu.imgpicker.entity.ImageItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -27,11 +28,11 @@ public class ImagePageAdapter extends PagerAdapter {
 
     private ImgPicker imagePicker;
     private ImgSelConfig config;
-    private ArrayList<ImageItem> images = new ArrayList<>();
+    private List<ImageItem> images = new ArrayList<>();
     private Activity mActivity;
     public PhotoViewClickListener listener;
 
-    public ImagePageAdapter(Activity activity, ArrayList<ImageItem> images) {
+    public ImagePageAdapter(Activity activity, List<ImageItem> images) {
         this.mActivity = activity;
         this.images = images;
 
@@ -39,8 +40,9 @@ public class ImagePageAdapter extends PagerAdapter {
         config = imagePicker.getConfig();
     }
 
-    public void setData(ArrayList<ImageItem> images) {
+    public void refreshData(ArrayList<ImageItem> images) {
         this.images = images;
+        notifyDataSetChanged();
     }
 
     public void setPhotoViewClickListener(PhotoViewClickListener listener) {

@@ -3,6 +3,7 @@ package com.yu.imgpicker.adapter;
 import android.content.Context;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.Toast;
 
 import com.yu.imgpicker.ImgPicker;
 import com.yu.imgpicker.core.OnSelectedListSizeChangeListener;
@@ -24,7 +25,7 @@ public class ImgGridAdapter extends RecyclerAdapter<ImageItem> {
     private static final int ITEM_TYPE_CAMERA = 1;
 
     private boolean showCamera;
-    private boolean multiSelect;
+    private int limited;
     private ImageLoader imageLoader;
     private Context context;
     private Set<ImageItem> selectedImages;
@@ -37,7 +38,7 @@ public class ImgGridAdapter extends RecyclerAdapter<ImageItem> {
 
         this.selectedImages = imgPicker.getSelectedImages();
         this.showCamera = imgPicker.getConfig().showCamera;
-        this.multiSelect = imgPicker.getConfig().multiSelect;
+        this.limited = imgPicker.getConfig().limited;
         this.imageLoader = imgPicker.getConfig().loader;
     }
 
@@ -71,13 +72,19 @@ public class ImgGridAdapter extends RecyclerAdapter<ImageItem> {
             boolean selected = selectedImages.contains(item);
             holder.setChecked(R.id.cbCheck, selected)
                     .setVisibility(R.id.mask, selected ? View.VISIBLE : View.GONE)
-                    .setVisibility(R.id.cbCheck, multiSelect ? View.VISIBLE : View.GONE);
+                    .setVisibility(R.id.cbCheck, limited > 1 ? View.VISIBLE : View.GONE);
 
             final CheckBox cbCheck = holder.findViewById(R.id.cbCheck);
             cbCheck.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (cbCheck.isChecked()) {
+                        if (selectedImages.size() == limited) {
+                            Toast.makeText(context.getApplicationContext(),
+                                    String.format("最多能选%d张", limited), Toast.LENGTH_SHORT).show();
+                            cbCheck.setChecked(false);
+                            return;
+                        }
                         holder.setVisibility(R.id.mask, View.VISIBLE);
                         selectedImages.add(item);
                     } else {
@@ -85,7 +92,7 @@ public class ImgGridAdapter extends RecyclerAdapter<ImageItem> {
                         selectedImages.remove(item);
                     }
                     // 回调选中的图片数量改变
-                    if (multiSelect && listener != null) {
+                    if (limited > 1 && listener != null) {
                         listener.onChange();
                     }
                 }
