@@ -1,9 +1,9 @@
 package com.yu.imgpicker.ui;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yu.imgpicker.R;
@@ -31,7 +31,6 @@ public abstract class ImagePreviewBaseActivity extends ImageBaseActivity {
     protected ImagePageAdapter mAdapter;
     protected Button btnOk;
 
-    @SuppressLint("StringFormatMatches")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,19 +44,36 @@ public abstract class ImagePreviewBaseActivity extends ImageBaseActivity {
         mImageItems = previewData.data;
         mSelectedImages = mImgPicker.getSelectedImages();
 
-        topBar = findViewById(R.id.top_bar);
-        btnOk = (Button) topBar.findViewById(R.id.btnOk);
-        btnOk.setEnabled(mSelectedImages.size() > 0);
-        btnOk.setVisibility(View.GONE);
 
-        topBar.findViewById(R.id.btnBack).setOnClickListener(new View.OnClickListener() {
+        topBar = findViewById(R.id.topBar);
+        if (mConfig.titleBarColor != -1)
+            topBar.setBackgroundColor(mConfig.titleBarColor);
+
+        ImageView btnBack = (ImageView) topBar.findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
+        if (mConfig.backResId != -1)
+            btnBack.setImageResource(mConfig.backResId);
 
-        mTitleCount = (TextView) findViewById(R.id.tvDes);
+        mTitleCount = (TextView) findViewById(R.id.tvTitle);
+        if (mConfig.titleTextColor != -1)
+            mTitleCount.setTextColor(mConfig.titleTextColor);
+        if (mConfig.titleText != null)
+            mTitleCount.setText(mConfig.titleText);
+        mTitleCount.setText(String.format("%d/%d", mCurrentPosition + 1, mImageItems.size()));
+
+        btnOk = (Button) topBar.findViewById(R.id.btnOk);
+        btnOk.setEnabled(mSelectedImages.size() > 0);
+        btnOk.setVisibility(View.GONE);
+        if (mConfig.btnResId != -1)
+            btnOk.setBackgroundResource(mConfig.btnResId);
+        if (mConfig.btnTextColor != -1)
+            btnOk.setTextColor(mConfig.btnTextColor);
+
 
         mViewPager = (ViewPagerFixed) findViewById(R.id.viewpager);
         mAdapter = new ImagePageAdapter(this, mImageItems);
@@ -69,9 +85,6 @@ public abstract class ImagePreviewBaseActivity extends ImageBaseActivity {
         });
         mViewPager.setAdapter(mAdapter);
         mViewPager.setCurrentItem(mCurrentPosition, false);
-
-        //初始化当前页面的状态
-        mTitleCount.setText(getString(R.string.preview_image_count, mCurrentPosition + 1, mImageItems.size()));
     }
 
     @Override

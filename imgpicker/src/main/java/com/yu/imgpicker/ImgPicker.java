@@ -15,7 +15,6 @@ import java.util.Set;
 /**
  * Created by yu on 2017/4/13.
  */
-
 public class ImgPicker {
 
     private ImgSelConfig mConfig;
@@ -53,6 +52,12 @@ public class ImgPicker {
 
     // ***********************************************************
     public void launch(Activity context) {
+        mSelectedImages.clear();
         context.startActivity(new Intent(context, ImgGridActivity.class));
+    }
+
+    public void clear() {
+        mImageFolders = null;
+        mSelectedImages.clear();
     }
 }

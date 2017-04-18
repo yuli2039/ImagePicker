@@ -29,7 +29,7 @@ public class ImgFolderAdapter extends RecyclerAdapter<ImageFolder> {
     @Override
     protected void onBindData(ViewHolder holder, int position, ImageFolder item) {
         holder.setText(R.id.tvFolderName, item.name)
-                .setText(R.id.tvImageCount, "共" + item.images.size() + "张")
+                .setText(R.id.tvImageCount, String.format("共%d张", item.images.size()))
                 .setVisibility(R.id.ivFolderCheck, item.selected ? View.VISIBLE : View.GONE);
         imageLoader.displayImage(context, item.cover.path, holder.findViewAsImageView(R.id.ivCover));
     }

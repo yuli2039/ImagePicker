@@ -6,8 +6,9 @@ import android.widget.ImageView;
 import java.io.Serializable;
 
 /**
- * @author yuyh.
- * @date 2016/8/5.
+ * 框架不限定使用的图片加载器，需要自己实现
+ *
+ * @author lyu
  */
 public interface ImageLoader extends Serializable {
     void displayImage(Context context, String path, ImageView imageView);

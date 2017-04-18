@@ -18,26 +18,19 @@ import com.yu.imgpicker.utils.ScreenUtils;
 
 
 /**
- * ================================================
- * 作    者：jeasonlzy（廖子尧）Github地址：https://github.com/jeasonlzy0216
- * 版    本：1.0
- * 创建日期：16/8/1
- * 描    述：
- * 修订历史：
- * ================================================
+ * 选择图片文件夹的弹层
+ * Created by lyu on 2017/4/14.
  */
 public class FolderPopUpWindow extends PopupWindow implements View.OnClickListener {
 
     private RecyclerView recyclerView;
     private OnItemClickListener onItemClickListener;
-    private final View marginView;
 
     public FolderPopUpWindow(final Context context, final ImgFolderAdapter adapter) {
         super(context);
 
         final View view = View.inflate(context, R.layout.pop_folder, null);
-        marginView = view.findViewById(R.id.margin);
-        marginView.setOnClickListener(this);
+        view.findViewById(R.id.margin).setOnClickListener(this);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));

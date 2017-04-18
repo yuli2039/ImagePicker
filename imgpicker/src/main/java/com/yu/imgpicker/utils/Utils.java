@@ -16,6 +16,7 @@ import java.io.File;
 import java.util.List;
 
 /**
+ * 调用拍照和裁剪的工具包
  * Created by yu on 2017/4/17.
  */
 public class Utils {

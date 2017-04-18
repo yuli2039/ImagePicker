@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.GridLayoutManager;
@@ -11,22 +12,28 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.yu.imgpicker.R;
 import com.yu.imgpicker.adapter.ImgFolderAdapter;
 import com.yu.imgpicker.adapter.ImgGridAdapter;
 import com.yu.imgpicker.adapter.base.RecyclerAdapter;
+import com.yu.imgpicker.compress.CompressHelper;
 import com.yu.imgpicker.core.ImageDataSource;
 import com.yu.imgpicker.core.OnSelectedListSizeChangeListener;
 import com.yu.imgpicker.entity.ImageFolder;
 import com.yu.imgpicker.entity.ImageItem;
 import com.yu.imgpicker.ui.widget.FolderPopUpWindow;
-import com.yu.imgpicker.utils.Utils;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.yu.imgpicker.utils.Utils.crop;
+import static com.yu.imgpicker.utils.Utils.takePhoto;
+
 
 /**
  * Created by yu on 2017/4/13.
@@ -57,6 +64,7 @@ public class ImgGridActivity extends ImageBaseActivity implements View.OnClickLi
             setSelectNumber();
         }
     };
+    private CompressHelper mCompressHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,23 +73,57 @@ public class ImgGridActivity extends ImageBaseActivity implements View.OnClickLi
 
         initView();
 
-        if (checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            loadImages();
+        if (mImgPicker.getImageFolders() != null) {
+            loadCompleted(mImgPicker.getImageFolders());
         } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION_STORAGE);
+            if (checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                loadImages();
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION_STORAGE);
+            }
+        }
+
+        if (mConfig.compress) {
+            mCompressHelper = new CompressHelper.Builder(ImgGridActivity.this)
+                    .setMaxWidth(mConfig.maxWidth)
+                    .setMaxHeight(mConfig.maxHeight)
+                    .setQuality(mConfig.quality)
+                    .setDestinationDirectoryPath(Environment.getExternalStorageDirectory() + "/compress/")
+                    .build();
         }
 
     }
 
     private void initView() {
-        findViewById(R.id.btnBack).setOnClickListener(this);
         mFolderRoot = (RelativeLayout) findViewById(R.id.rlFolderRoot);
-        mBtnOk = (Button) findViewById(R.id.btnOk);
+
+        View topBar = findViewById(R.id.topBar);
+        if (mConfig.titleBarColor != -1)
+            topBar.setBackgroundColor(mConfig.titleBarColor);
+
+        ImageView btnBack = (ImageView) topBar.findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(this);
+        if (mConfig.backResId != -1)
+            btnBack.setImageResource(mConfig.backResId);
+
+        TextView tvTitle = (TextView) topBar.findViewById(R.id.tvTitle);
+        if (mConfig.titleTextColor != -1)
+            tvTitle.setTextColor(mConfig.titleTextColor);
+        if (mConfig.titleText != null)
+            tvTitle.setText(mConfig.titleText);
+
+        mBtnOk = (Button) topBar.findViewById(R.id.btnOk);
         mBtnOk.setOnClickListener(this);
+        if (mConfig.btnResId != -1)
+            mBtnOk.setBackgroundResource(mConfig.btnResId);
+        if (mConfig.btnTextColor != -1)
+            mBtnOk.setTextColor(mConfig.btnTextColor);
+
         mBtnDir = (Button) findViewById(R.id.btnDir);
         mBtnDir.setOnClickListener(this);
         mBtnPre = (Button) findViewById(R.id.btnPreview);
         mBtnPre.setOnClickListener(this);
+
         setSelectNumber();
 
         if (mConfig.limited > 1) {
@@ -91,6 +133,7 @@ public class ImgGridActivity extends ImageBaseActivity implements View.OnClickLi
             mBtnOk.setVisibility(View.GONE);
             mBtnPre.setVisibility(View.GONE);
         }
+
 
         // 设置recyclerview
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -103,7 +146,7 @@ public class ImgGridActivity extends ImageBaseActivity implements View.OnClickLi
             public void onItemClick(int position, Object item) {
                 if (mConfig.showCamera && position == 0) {
                     if (checkPermission(Manifest.permission.CAMERA)) {
-                        Utils.takePhoto(ImgGridActivity.this, REQUEST_CAPTURE_CODE);
+                        mPhotoFile = takePhoto(ImgGridActivity.this, REQUEST_CAPTURE_CODE);
                     } else {
                         ActivityCompat.requestPermissions(ImgGridActivity.this,
                                 new String[]{Manifest.permission.CAMERA}, REQUEST_PERMISSION_CAMERA);
@@ -117,12 +160,17 @@ public class ImgGridActivity extends ImageBaseActivity implements View.OnClickLi
                 } else {
                     ImageItem imageItem = mGridAdapter.getItem(position);
                     if (mConfig.needCrop) {
-                        Utils.crop(ImgGridActivity.this, REQUEST_CROP_CODE, new File(imageItem.path), mConfig);
+                        mPhotoCropFile = crop(ImgGridActivity.this, REQUEST_CROP_CODE, new File(imageItem.path), mConfig);
                     } else {
+                        // 单选压缩
+                        if (mConfig.compress) {
+                            imageItem.compressPath = mCompressHelper.compressToFile(new File(imageItem.path)).getAbsolutePath();
+                        }
                         if (mConfig.listener != null) {
                             ArrayList<ImageItem> data = new ArrayList<>();
                             data.add(imageItem);
                             mConfig.listener.onSelect(data);
+                            finish();
                         }
                     }
                 }
@@ -136,6 +184,7 @@ public class ImgGridActivity extends ImageBaseActivity implements View.OnClickLi
         });
         mGridAdapter.registerAdapterDataObserver(mObserver);
         mRecyclerView.setAdapter(mGridAdapter);
+
 
         // 设置文件夹选择弹窗
         mFolderAdapter = new ImgFolderAdapter(this, null);
@@ -155,9 +204,12 @@ public class ImgGridActivity extends ImageBaseActivity implements View.OnClickLi
         super.onDestroy();
     }
 
+    /**
+     * 刷新选中数量
+     */
     private void setSelectNumber() {
         if (mImgPicker.getSelectedImages().size() == 0) {
-            mBtnOk.setText("完成");
+            mBtnOk.setText(getString(R.string.top_bar_ok));
             mBtnOk.setEnabled(false);
             mBtnPre.setEnabled(false);
         } else {
@@ -175,14 +227,13 @@ public class ImgGridActivity extends ImageBaseActivity implements View.OnClickLi
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 loadImages();
             } else {
-                showToast("权限被禁止，无法选择本地图片");
+                showToast(getString(R.string.read_permission_denied));
             }
         } else if (requestCode == REQUEST_PERMISSION_CAMERA) {
-            // 点击相机item，申请权限，完成后回调这里
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Utils.takePhoto(this, REQUEST_CAPTURE_CODE);
+                mPhotoFile = takePhoto(this, REQUEST_CAPTURE_CODE);
             } else {
-                showToast("权限被禁止，无法打开相机");
+                showToast(getString(R.string.camera_permission_denied));
             }
         }
     }
@@ -192,53 +243,77 @@ public class ImgGridActivity extends ImageBaseActivity implements View.OnClickLi
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQUEST_PREVIEW_CODE:
-                // 预览页面返回
+                // 预览页面返回,肯定是多选
                 if (resultCode == RESULT_CANCELED) {
                     mGridAdapter.notifyDataSetChanged();
                 } else {
                     // 预览页面点击完成按钮
-                    if (mConfig.listener != null) {
-                        mConfig.listener.onSelect(new ArrayList<>(mImgPicker.getSelectedImages()));
-                    }
+                    callListenerMultiSelected();
                     finish();
                 }
                 break;
             case REQUEST_CAPTURE_CODE:
                 if (resultCode == RESULT_OK) {
                     if (mConfig.limited == 1 && mConfig.needCrop) {// 只有单选裁剪才生效
-                        Utils.crop(this, REQUEST_CROP_CODE, mPhotoFile, mConfig);
+                        mPhotoCropFile = crop(this, REQUEST_CROP_CODE, mPhotoFile, mConfig);
                     } else {
-                        callListenerWith(mPhotoFile);
+                        // 拍照之后压缩
+                        String compressPath = "";
+                        if (mConfig.compress) {
+                            compressPath = mCompressHelper.compressToFile(mPhotoFile).getAbsolutePath();
+                        }
+                        callListenerWith(mPhotoFile, compressPath);
                         finish();
                     }
                 } else {
-                    callListenerWithFail("拍照失败");
+                    callListenerWithFail(getString(R.string.camera_error));
                     finish();
                 }
                 break;
             case REQUEST_CROP_CODE:
                 if (resultCode == RESULT_OK) {
-                    callListenerWith(mPhotoCropFile);
+                    callListenerWith(mPhotoCropFile, "");
                 } else {
-                    callListenerWithFail("裁剪图片失败");
+                    callListenerWithFail(getString(R.string.crop_error));
                 }
                 finish();
                 break;
         }
     }
 
+    /**
+     * 多选回调listener
+     */
+    private void callListenerMultiSelected() {
+        if (mConfig.listener != null) {
+            if (mConfig.compress) {// 多选压缩
+                for (ImageItem item : mImgPicker.getSelectedImages()) {
+                    item.compressPath = mCompressHelper.compressToFile(new File(item.path)).getAbsolutePath();
+                }
+            }
+            mConfig.listener.onSelect(new ArrayList<>(mImgPicker.getSelectedImages()));
+        }
+    }
+
+    /**
+     * 拍照或者裁剪错误回调
+     */
     private void callListenerWithFail(String msg) {
         if (mConfig.listener != null) {
             mConfig.listener.onSelectFail(msg);
         }
     }
 
-    private void callListenerWith(File file) {
+    /**
+     * 裁剪或者单选的压缩后，返回结果，需要手动创建ImageItem
+     */
+    private void callListenerWith(File file, String compressPath) {
         if (mConfig.listener != null) {
             ImageItem imageItem = new ImageItem();
             imageItem.name = file.getName();
             imageItem.path = file.getAbsolutePath();
             imageItem.size = file.length();
+            imageItem.compressPath = compressPath;
             imageItem.mimeType = "image/jpeg";
             imageItem.addTime = file.lastModified();
 
@@ -252,11 +327,15 @@ public class ImgGridActivity extends ImageBaseActivity implements View.OnClickLi
         new ImageDataSource(this, null, new ImageDataSource.OnImagesLoadedListener() {
             @Override
             public void onImagesLoaded(List<ImageFolder> imageFolders) {
-                mImgPicker.setImageFolders(imageFolders);
-                mFolderAdapter.refreshWithNewData(imageFolders);
-                mGridAdapter.refreshWithNewData(imageFolders.get(0).images);
+                loadCompleted(imageFolders);
             }
         }).loadImages();
+    }
+
+    private void loadCompleted(List<ImageFolder> imageFolders) {
+        mImgPicker.setImageFolders(imageFolders);
+        mFolderAdapter.refreshWithNewData(imageFolders);
+        mGridAdapter.refreshWithNewData(imageFolders.get(0).images);
     }
 
     @Override
@@ -269,9 +348,7 @@ public class ImgGridActivity extends ImageBaseActivity implements View.OnClickLi
         } else if (i == R.id.btnPreview) {
             ImagePreviewActivity.start(ImgGridActivity.this, new ArrayList<>(mImgPicker.getSelectedImages()), 0);
         } else if (i == R.id.btnOk) {
-            if (mConfig.listener != null) {
-                mConfig.listener.onSelect(new ArrayList<>(mImgPicker.getSelectedImages()));
-            }
+            callListenerMultiSelected();
             finish();
         }
     }

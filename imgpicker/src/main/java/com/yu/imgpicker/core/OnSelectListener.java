@@ -7,9 +7,8 @@ import java.util.List;
 /**
  * Created by yu on 2017/4/17.
  */
-
 public interface OnSelectListener {
-
+    // 选择成功，单选时只有1张
     void onSelect(List<ImageItem> data);
 
     void onSelectFail(String msg);

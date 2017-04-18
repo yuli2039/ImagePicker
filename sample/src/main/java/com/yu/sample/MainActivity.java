@@ -26,15 +26,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         iv = (ImageView) findViewById(R.id.iv);
 
-        ImgSelConfig config = new ImgSelConfig.Builder(this)
+        ImgSelConfig config = new ImgSelConfig.Builder()
                 .imageLoader(new ImageLoader() {
                     @Override
                     public void displayImage(Context context, String path, ImageView imageView) {
                         Glide.with(context).load(path).centerCrop().into(imageView);
                     }
                 })
-                .limited(3)
-                .needCrop(true)
+//                .titleBarColor(Color.BLACK)
+//                .titleText("haha")
+//                .titleTextColor(Color.parseColor("#ff0000"))
+//                .btnResId(R.drawable.selector_back_press)
+//                .btnTextColor(Color.parseColor("#00ff00"))
+//                .backResId(R.mipmap.ic_launcher)
+                .limited(9)
+                .compress(true)
+//                .needCrop(true)
                 .callback(new OnSelectListener() {
                     @Override
                     public void onSelect(List<ImageItem> data) {
@@ -43,12 +50,10 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onSelectFail(String msg) {
-
                     }
 
                     @Override
                     public void onSelectImageCancel() {
-
                     }
                 })
                 .build();
@@ -60,11 +65,18 @@ public class MainActivity extends AppCompatActivity {
 
         LogUtils.e("data.size = " + data.size());
         LogUtils.e("first image path = " + data.get(0).path);
+        LogUtils.e("first compress path = " + data.get(0).compressPath);
 
         Glide.with(this).load(data.get(0).path).centerCrop().into(iv);
     }
 
     public void btnClick(View v) {
         ImgPicker.getInstance().launch(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ImgPicker.getInstance().clear();
     }
 }

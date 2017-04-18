@@ -6,13 +6,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 /**
- * ================================================
- * 作    者：jeasonlzy（廖子尧 Github地址：https://github.com/jeasonlzy0216
- * 版    本：1.0
- * 创建日期：2016/5/19
- * 描    述：修复图片在ViewPager控件中缩放报错的BUG
- * 修订历史：
- * ================================================
+ * 抓住photoview和viewpager一起使用时，放大图片的异常
  */
 public class ViewPagerFixed extends ViewPager {
 

@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by yu on 2017/4/17.
+ * 用于传递预览的图片集合
+ * Created by lyu on 2017/4/17.
  */
 public class PreviewData implements Parcelable {
 

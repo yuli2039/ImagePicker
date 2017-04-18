@@ -8,8 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.yu.imgpicker.ImgPicker;
+import com.yu.imgpicker.R;
 import com.yu.imgpicker.core.ImgSelConfig;
-import com.yu.imgpicker.utils.StatusBarCompat;
+import com.yu.imgpicker.utils.StatusBarUtil;
 
 /**
  *
@@ -24,10 +25,16 @@ public class ImageBaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mImgPicker = ImgPicker.getInstance();
         mConfig = mImgPicker.getConfig();
-        if (mConfig != null) {
-            StatusBarCompat.compat(this, mConfig.statusBarColor);
+
+        if (mConfig == null) {
+            throw new NullPointerException("ImagePicker.getConfig() == null");
         }
 
+        if (mConfig.titleBarColor != -1) {
+            StatusBarUtil.setColor(this, mConfig.titleBarColor);
+        } else {
+            StatusBarUtil.setColor(this, getResources().getColor(R.color.main_color));
+        }
     }
 
     public boolean checkPermission(@NonNull String permission) {
