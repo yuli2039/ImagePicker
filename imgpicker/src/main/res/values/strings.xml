@@ -13,6 +13,7 @@
 
     <string name="camera_error">相机发生错误</string>
     <string name="crop_error">裁剪图片错误</string>
+    <string name="compress">正在压缩</string>
 
 
 </resources>

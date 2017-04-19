@@ -5,8 +5,8 @@ import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.yu.imgpicker.ImgPicker;
-import com.yu.imgpicker.core.ImgSelConfig;
+import com.yu.imgpicker.ImagePicker;
+import com.yu.imgpicker.PickerConfig;
 import com.yu.imgpicker.entity.ImageItem;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  */
 public class ImagePageAdapter extends PagerAdapter {
 
-    private ImgSelConfig config;
+    private PickerConfig config;
     private List<ImageItem> images = new ArrayList<>();
     private Activity mActivity;
     private PhotoViewClickListener listener;
@@ -29,11 +29,11 @@ public class ImagePageAdapter extends PagerAdapter {
         this.mActivity = activity;
         this.images = images;
 
-        ImgPicker imagePicker = ImgPicker.getInstance();
+        ImagePicker imagePicker = ImagePicker.getInstance();
         config = imagePicker.getConfig();
     }
 
-    public void refreshData(ArrayList<ImageItem> images) {
+    public void refreshData(List<ImageItem> images) {
         this.images = images;
         notifyDataSetChanged();
     }

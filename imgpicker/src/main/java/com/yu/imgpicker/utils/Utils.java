@@ -10,14 +10,16 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 
-import com.yu.imgpicker.core.ImgSelConfig;
+import com.yu.imgpicker.PickerConfig;
+import com.yu.imgpicker.entity.ImageItem;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 调用拍照和裁剪的工具包
- * Created by yu on 2017/4/17.
+ * Created by lyu on 2017/4/17.
  */
 public class Utils {
 
@@ -53,7 +55,7 @@ public class Utils {
      * @param config      用于获取裁剪输出参数
      * @return 返回裁剪之后存储的图片文件
      */
-    public static File crop(Activity activity, int requestCode, File sourceImage, ImgSelConfig config) {
+    public static File crop(Activity activity, int requestCode, File sourceImage, PickerConfig config) {
         Uri imageUri = FileProvider.getUriForFile(activity, FILE_PROVIDER_AUTHORITIES, sourceImage);
 
         File outputFile = createFile("crop_" + System.currentTimeMillis());
@@ -90,5 +92,21 @@ public class Utils {
         if (!file.getParentFile().exists())
             file.getParentFile().mkdirs();
         return file;
+    }
+
+    /**
+     * 拍照或者裁剪之后，通过文件创建一个新的ImageItem对象,并加入集合
+     */
+    public static List<ImageItem> generateImageItemList(File file) {
+        ImageItem imageItem = new ImageItem();
+        imageItem.name = file.getName();
+        imageItem.path = file.getAbsolutePath();
+        imageItem.size = file.length();
+        imageItem.mimeType = "image/jpeg";
+        imageItem.addTime = file.lastModified();
+
+        ArrayList<ImageItem> data = new ArrayList<>();
+        data.add(imageItem);
+        return data;
     }
 }

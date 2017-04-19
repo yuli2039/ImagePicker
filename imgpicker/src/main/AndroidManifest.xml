@@ -7,21 +7,26 @@
         android:supportsRtl="true">
 
         <activity
-            android:name=".ui.ImgGridActivity"
+            android:name=".ui.GridActivity"
             android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
             android:theme="@style/ImagePickerTheme" />
-
         <activity
-            android:name=".ui.ImagePreviewActivity"
+            android:name=".ui.PreviewActivity"
             android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
             android:theme="@style/ImagePickerTheme" />
-
+        <activity
+            android:name=".ui.PreviewDelActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/ImagePickerTheme" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.yu.imgpicker.fileprovider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />

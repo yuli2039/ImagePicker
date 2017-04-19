@@ -5,11 +5,11 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
-import com.yu.imgpicker.ImgPicker;
+import com.yu.imgpicker.ImagePicker;
 import com.yu.imgpicker.core.OnSelectedListSizeChangeListener;
 import com.yu.imgpicker.R;
-import com.yu.imgpicker.adapter.base.RecyclerAdapter;
-import com.yu.imgpicker.adapter.base.ViewHolder;
+import com.yu.imgpicker.adapter.baseadapter.RecyclerAdapter;
+import com.yu.imgpicker.adapter.baseadapter.ViewHolder;
 import com.yu.imgpicker.core.ImageLoader;
 import com.yu.imgpicker.entity.ImageItem;
 
@@ -34,7 +34,7 @@ public class ImgGridAdapter extends RecyclerAdapter<ImageItem> {
     public ImgGridAdapter(Context context, List<ImageItem> data) {
         super(data, R.layout.adapter_image_list_item, R.layout.adapter_camera_item);
         this.context = context;
-        ImgPicker imgPicker = ImgPicker.getInstance();
+        ImagePicker imgPicker = ImagePicker.getInstance();
 
         this.selectedImages = imgPicker.getSelectedImages();
         this.showCamera = imgPicker.getConfig().showCamera;

@@ -2,7 +2,6 @@
     android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
     android:orientation="vertical">
 
     <include
@@ -12,13 +11,36 @@
     <RelativeLayout
         android:id="@+id/rlFolderRoot"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/grid_bg">
+        android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="@color/grid_bg" />
+
+        <LinearLayout
+            android:id="@+id/compress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ProgressBar
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/m8"
+                android:text="@string/compress"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/f2" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/footer"

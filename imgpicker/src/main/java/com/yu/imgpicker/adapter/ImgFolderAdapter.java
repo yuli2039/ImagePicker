@@ -3,10 +3,10 @@ package com.yu.imgpicker.adapter;
 import android.content.Context;
 import android.view.View;
 
-import com.yu.imgpicker.ImgPicker;
+import com.yu.imgpicker.ImagePicker;
 import com.yu.imgpicker.R;
-import com.yu.imgpicker.adapter.base.RecyclerAdapter;
-import com.yu.imgpicker.adapter.base.ViewHolder;
+import com.yu.imgpicker.adapter.baseadapter.RecyclerAdapter;
+import com.yu.imgpicker.adapter.baseadapter.ViewHolder;
 import com.yu.imgpicker.core.ImageLoader;
 import com.yu.imgpicker.entity.ImageFolder;
 
@@ -23,7 +23,7 @@ public class ImgFolderAdapter extends RecyclerAdapter<ImageFolder> {
     public ImgFolderAdapter(Context context, List<ImageFolder> data) {
         super(data, R.layout.adapter_folder_list_item);
         this.context = context;
-        this.imageLoader = ImgPicker.getInstance().getConfig().loader;
+        this.imageLoader = ImagePicker.getInstance().getConfig().loader;
     }
 
     @Override
