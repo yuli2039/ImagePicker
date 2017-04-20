@@ -1,12 +1,12 @@
 # ImagePicker
 仿微信照片选择组件
 
-##演示
+## 演示
  ![image](https://github.com/yuli2039/ImagePicker/blob/master/image/image1.jpg)
  ![image](https://github.com/yuli2039/ImagePicker/blob/master/image/image2.jpg)
  ![image](https://github.com/yuli2039/ImagePicker/blob/master/image/image3.jpg)
 
-##使用方法
+## 使用方法
 
 1)初始化
 ```java
@@ -57,4 +57,4 @@
     }
 ```
 
-##TODO 发布到中央仓库
+## TODO 发布到中央仓库
