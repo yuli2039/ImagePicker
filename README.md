@@ -2,9 +2,8 @@
 仿微信照片选择组件
 
 ##演示
- ![image](https://github.com/yuli2039/ImagePicker/blob/master/image/image1.jpg)
- ![image](https://github.com/yuli2039/ImagePicker/blob/master/image/image2.jpg)
- ![image](https://github.com/yuli2039/ImagePicker/blob/master/image/image3.jpg)
+
+ ![image](https://github.com/yuli2039/ImagePicker/blob/master/image/image1.jpg)![image](https://github.com/yuli2039/ImagePicker/blob/master/image/image2.jpg)![image](https://github.com/yuli2039/ImagePicker/blob/master/image/image3.jpg)
 
 ##使用方法
 
