@@ -3,6 +3,9 @@ package com.yu.imgpicker.entity;
 import java.io.Serializable;
 
 /**
+ * 图片对象
+ *
+ * @author lyu
  */
 public class ImageItem implements Serializable {
 

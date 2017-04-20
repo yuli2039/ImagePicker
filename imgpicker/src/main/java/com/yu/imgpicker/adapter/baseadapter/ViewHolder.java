@@ -18,7 +18,7 @@ import android.widget.TextView;
 /**
  * ViewHolder操作子视图的实现类
  *
- * @author yu
+ * @author lyu
  */
 public class ViewHolder extends RecyclerView.ViewHolder {
 

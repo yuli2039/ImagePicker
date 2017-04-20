@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * PreviewDelActivity,可以删除图片的预览页面
+ * Created by lyu on 2017/4/20.
  */
 public class PreviewDelActivity extends BaseActivity {
 

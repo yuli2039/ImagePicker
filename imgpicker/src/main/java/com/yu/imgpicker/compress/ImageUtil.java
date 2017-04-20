@@ -19,13 +19,8 @@ import java.io.InputStream;
 
 /**
  * 图片处理工具类
- *
- * Author: nanchen
- * Email: liushilin520@foxmail.com
- * Date: 2017-03-08  9:03
  */
-
-public class ImageUtil {
+class ImageUtil {
 
     private ImageUtil() {
         throw new UnsupportedOperationException("u can't instantiate me...");
@@ -57,7 +52,7 @@ public class ImageUtil {
         int actualHeight = options.outHeight;
         int actualWidth = options.outWidth;
 
-        if (actualHeight == -1 || actualWidth == -1){
+        if (actualHeight == -1 || actualWidth == -1) {
             try {
                 ExifInterface exifInterface = new ExifInterface(filePath);
                 actualHeight = exifInterface.getAttributeInt(ExifInterface.TAG_IMAGE_LENGTH, ExifInterface.ORIENTATION_NORMAL);//获取图片的高度
@@ -69,10 +64,10 @@ public class ImageUtil {
 
         if (actualWidth < 0 || actualHeight < 0) {
             Bitmap bitmap2 = BitmapFactory.decodeFile(filePath);
-            if (bitmap2 != null){
+            if (bitmap2 != null) {
                 actualWidth = bitmap2.getWidth();
                 actualHeight = bitmap2.getHeight();
-            }else{
+            } else {
                 return null;
             }
         }

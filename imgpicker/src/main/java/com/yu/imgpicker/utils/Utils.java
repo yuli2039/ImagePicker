@@ -10,7 +10,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 
-import com.yu.imgpicker.PickerConfig;
+import com.yu.imgpicker.ImagePickerConfig;
 import com.yu.imgpicker.entity.ImageItem;
 
 import java.io.File;
@@ -25,6 +25,11 @@ public class Utils {
 
     private static final String FILE_PROVIDER_AUTHORITIES = "com.yu.imgpicker.fileprovider";// 用于适配7.0的文件共享
 
+    private static final String ROOT_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/temp/";
+    private static final String COMPRESS_DIR_PATH = ROOT_PATH + "compress/";
+    private static final String CAMERA_DIR_PATH = ROOT_PATH + "camera/";
+    private static final String CROP_DIR_PATH = ROOT_PATH + "crop/";
+
     /**
      * 调用相机拍摄一张图片
      *
@@ -33,7 +38,7 @@ public class Utils {
      * @return 返回原图存储的文件
      */
     public static File takePhoto(Activity activity, int requestCode) {
-        File file = createFile(String.valueOf(System.currentTimeMillis()));
+        File file = createFile(CAMERA_DIR_PATH, System.currentTimeMillis() + ".jpeg");
         //通过FileProvider创建一个content类型的Uri
         Uri imageUri = FileProvider.getUriForFile(activity, FILE_PROVIDER_AUTHORITIES, file);
 
@@ -55,10 +60,10 @@ public class Utils {
      * @param config      用于获取裁剪输出参数
      * @return 返回裁剪之后存储的图片文件
      */
-    public static File crop(Activity activity, int requestCode, File sourceImage, PickerConfig config) {
+    public static File crop(Activity activity, int requestCode, File sourceImage, ImagePickerConfig config) {
         Uri imageUri = FileProvider.getUriForFile(activity, FILE_PROVIDER_AUTHORITIES, sourceImage);
 
-        File outputFile = createFile("crop_" + System.currentTimeMillis());
+        File outputFile = createFile(CROP_DIR_PATH, System.currentTimeMillis() + ".jpeg");
         Uri outputUri = FileProvider.getUriForFile(activity, FILE_PROVIDER_AUTHORITIES, outputFile);
 
         Intent intent = new Intent("com.android.camera.action.CROP");
@@ -77,21 +82,27 @@ public class Utils {
         intent.putExtra("noFaceDetection", true);
 
         //将存储图片的uri读写权限授权给剪裁工具应用，否则会出现无法存储裁剪图片的情况
-        List<ResolveInfo> resInfoList = activity.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        List<ResolveInfo> resInfoList = activity.getPackageManager()
+                .queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
         for (ResolveInfo resolveInfo : resInfoList) {
             String packageName = resolveInfo.activityInfo.packageName;
-            activity.grantUriPermission(packageName, outputUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            activity.grantUriPermission(packageName, outputUri,
+                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
         }
         activity.startActivityForResult(intent, requestCode);
 
         return outputFile;
     }
 
-    private static File createFile(String fileName) {
-        File file = new File(Environment.getExternalStorageDirectory(), "/temp/" + fileName + ".jpeg");
+    private static File createFile(String dir, String fileName) {
+        File file = new File(dir, fileName);
         if (!file.getParentFile().exists())
             file.getParentFile().mkdirs();
         return file;
+    }
+
+    public static String getCompressDir() {
+        return COMPRESS_DIR_PATH;
     }
 
     /**

@@ -13,7 +13,7 @@ import java.io.Serializable;
  * 配置
  * Created by lyu on 2017/4/13.
  */
-public class PickerConfig {
+public class ImagePickerConfig {
 
     public int limited = 9;                     // 最多选择图片数
     public boolean showCamera;                  // 第一个item是否显示相机
@@ -39,7 +39,7 @@ public class PickerConfig {
     public float maxHeight;
     public int quality;
 
-    public PickerConfig(Builder builder) {
+    public ImagePickerConfig(Builder builder) {
         this.needCrop = builder.needCrop;
         this.limited = builder.limited;
         this.showCamera = builder.showCamera;
@@ -93,12 +93,8 @@ public class PickerConfig {
             return this;
         }
 
-        public Builder maxWidth(float maxWidth) {
+        public Builder maxWidthAndHeight(float maxWidth,float maxHeight) {
             this.maxWidth = maxWidth;
-            return this;
-        }
-
-        public Builder maxHeight(float maxHeight) {
             this.maxHeight = maxHeight;
             return this;
         }
@@ -171,10 +167,10 @@ public class PickerConfig {
             return this;
         }
 
-        public PickerConfig build() {
+        public ImagePickerConfig build() {
             if (loader == null)
                 throw new NullPointerException("the ImageLoader is null");
-            return new PickerConfig(this);
+            return new ImagePickerConfig(this);
         }
     }
 }

@@ -1,7 +1,8 @@
 package com.yu.imgpicker.core;
 
 /**
- * Created by yu on 2017/4/18.
+ * SimpleSelectListener
+ * Created by lyu on 2017/4/18.
  */
 public abstract class SimpleSelectListener implements OnSelectListener {
     @Override

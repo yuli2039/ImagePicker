@@ -13,14 +13,15 @@ import com.yu.imgpicker.entity.ImageFolder;
 import java.util.List;
 
 /**
- * Created by yu on 2017/4/14.
+ * 文件夹选择弹窗
+ * Created by lyu on 2017/4/14.
  */
-public class ImgFolderAdapter extends RecyclerAdapter<ImageFolder> {
+public class ImageFolderAdapter extends RecyclerAdapter<ImageFolder> {
 
     private ImageLoader imageLoader;
     private Context context;
 
-    public ImgFolderAdapter(Context context, List<ImageFolder> data) {
+    public ImageFolderAdapter(Context context, List<ImageFolder> data) {
         super(data, R.layout.adapter_folder_list_item);
         this.context = context;
         this.imageLoader = ImagePicker.getInstance().getConfig().loader;

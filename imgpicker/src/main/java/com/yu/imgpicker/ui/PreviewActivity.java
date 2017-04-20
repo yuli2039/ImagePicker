@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * 预览页面,可以选择图片
+ * Created by lyu on 2017/4/20.
  */
 public class PreviewActivity extends PreviewDelActivity {
 

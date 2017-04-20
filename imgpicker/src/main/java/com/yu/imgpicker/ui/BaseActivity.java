@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.yu.imgpicker.ImagePicker;
 import com.yu.imgpicker.R;
-import com.yu.imgpicker.PickerConfig;
+import com.yu.imgpicker.ImagePickerConfig;
 import com.yu.imgpicker.utils.StatusBarUtil;
 
 /**
@@ -17,7 +17,7 @@ import com.yu.imgpicker.utils.StatusBarUtil;
  */
 public class BaseActivity extends AppCompatActivity {
 
-    protected PickerConfig mConfig;
+    protected ImagePickerConfig mConfig;
     protected ImagePicker mImgPicker;
 
     @Override

@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.yu.imgpicker.ImagePicker;
-import com.yu.imgpicker.PickerConfig;
+import com.yu.imgpicker.ImagePickerConfig;
 import com.yu.imgpicker.entity.ImageItem;
 
 import java.util.ArrayList;
@@ -16,11 +16,12 @@ import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
- *
+ * 预览大图的viewpager适配器
+ * Created by lyu on 2017/4/14.
  */
 public class ImagePageAdapter extends PagerAdapter {
 
-    private PickerConfig config;
+    private ImagePickerConfig config;
     private List<ImageItem> images = new ArrayList<>();
     private Activity mActivity;
     private PhotoViewClickListener listener;

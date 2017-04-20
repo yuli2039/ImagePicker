@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.GridLayoutManager;
@@ -17,18 +16,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yu.imgpicker.R;
-import com.yu.imgpicker.adapter.ImgFolderAdapter;
-import com.yu.imgpicker.adapter.ImgGridAdapter;
+import com.yu.imgpicker.adapter.ImageFolderAdapter;
+import com.yu.imgpicker.adapter.ImageGridAdapter;
 import com.yu.imgpicker.adapter.baseadapter.RecyclerAdapter;
-import com.yu.imgpicker.compress.CompressHelper;
-import com.yu.imgpicker.core.CompressTask;
+import com.yu.imgpicker.compress.BatchCompressTask;
+import com.yu.imgpicker.compress.Compresor;
 import com.yu.imgpicker.core.ImageDataSource;
 import com.yu.imgpicker.core.OnSelectedListSizeChangeListener;
 import com.yu.imgpicker.entity.ImageFolder;
 import com.yu.imgpicker.entity.ImageItem;
+import com.yu.imgpicker.utils.Utils;
 import com.yu.imgpicker.widget.DividerGridItemDecoration;
 import com.yu.imgpicker.widget.FolderPopUpWindow;
-import com.yu.imgpicker.utils.Utils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -52,12 +51,12 @@ public class GridActivity extends BaseActivity implements View.OnClickListener {
     private Button mBtnOk;
     private Button mBtnDir;
     private Button mBtnPre;
-    private ImgGridAdapter mGridAdapter;
-    private ImgFolderAdapter mFolderAdapter;
+    private ImageGridAdapter mGridAdapter;
+    private ImageFolderAdapter mFolderAdapter;
     private FolderPopUpWindow mFolderPopUpWindow;
     private File mPhotoFile;
     private File mCropFile;
-    private CompressHelper mCompressHelper;
+    private Compresor mCompresor;
     private View compressProgress;
 
     private RecyclerView.AdapterDataObserver mObserver = new RecyclerView.AdapterDataObserver() {
@@ -94,10 +93,8 @@ public class GridActivity extends BaseActivity implements View.OnClickListener {
                     if (mConfig.compress) {
                         compressAndFinish(data);// 单选压缩
                     } else {
-                        if (mConfig.listener != null) {
-                            mConfig.listener.onSelect(data);
-                            finish();
-                        }
+                        callListenerSingleSelected(data);
+                        finish();
                     }
                 }
             }
@@ -122,11 +119,11 @@ public class GridActivity extends BaseActivity implements View.OnClickListener {
         }
 
         if (mConfig.compress) {
-            mCompressHelper = new CompressHelper.Builder(GridActivity.this)
+            mCompresor = new Compresor.Builder(GridActivity.this)
                     .setMaxWidth(mConfig.maxWidth)
                     .setMaxHeight(mConfig.maxHeight)
                     .setQuality(mConfig.quality)
-                    .setDestinationDirectoryPath(Environment.getExternalStorageDirectory() + "/compress/")
+                    .setDestinationDirectoryPath(Utils.getCompressDir())
                     .build();
         }
 
@@ -173,14 +170,13 @@ public class GridActivity extends BaseActivity implements View.OnClickListener {
             mBtnPre.setVisibility(View.GONE);
         }
 
-
         // 设置recyclerview
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new DividerGridItemDecoration(this));
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
 
-        mGridAdapter = new ImgGridAdapter(this, null);
+        mGridAdapter = new ImageGridAdapter(this, null);
         mGridAdapter.setOnItemClickListener(onItemClickListener);
         mGridAdapter.setOnSelectedListSizeChangeListener(new OnSelectedListSizeChangeListener() {
             @Override
@@ -193,12 +189,12 @@ public class GridActivity extends BaseActivity implements View.OnClickListener {
 
 
         // 设置文件夹选择弹窗
-        mFolderAdapter = new ImgFolderAdapter(this, null);
+        mFolderAdapter = new ImageFolderAdapter(this, null);
         mFolderPopUpWindow = new FolderPopUpWindow(this, mFolderAdapter);
         mFolderPopUpWindow.setOnItemClickListener(new FolderPopUpWindow.OnItemClickListener() {
             @Override
             public void onItemClick(ImageFolder folder) {
-                mGridAdapter.refreshWithNewData(folder.images);
+                mGridAdapter.refreshData(folder.images);
                 mBtnDir.setText(folder.name);
             }
         });
@@ -215,8 +211,8 @@ public class GridActivity extends BaseActivity implements View.OnClickListener {
 
     private void loadCompleted(List<ImageFolder> imageFolders) {
         mImgPicker.setImageFolders(imageFolders);
-        mFolderAdapter.refreshWithNewData(imageFolders);
-        mGridAdapter.refreshWithNewData(imageFolders.get(0).images);
+        mFolderAdapter.refreshData(imageFolders);
+        mGridAdapter.refreshData(imageFolders.get(0).images);
     }
 
     /**
@@ -305,6 +301,15 @@ public class GridActivity extends BaseActivity implements View.OnClickListener {
     }
 
     /**
+     * 单选回调，不压缩和裁剪
+     */
+    private void callListenerSingleSelected(List<ImageItem> data) {
+        if (mConfig.listener != null) {
+            mConfig.listener.onSelect(data);
+        }
+    }
+
+    /**
      * 单选回调(拍照或者裁剪后，通过file生成ImageItem)
      */
     private void callListenerSingleSelected(File file) {
@@ -331,15 +336,35 @@ public class GridActivity extends BaseActivity implements View.OnClickListener {
      * 压缩图片之后回调接口并关闭页面
      */
     private void compressAndFinish(List<ImageItem> data) {
-        new CompressTask(mCompressHelper, compressProgress, new CompressTask.CompressListener() {
+        mCompresor.compressToFileAsync(data, new BatchCompressTask.Converter<ImageItem>() {
             @Override
-            public void onCompressComplete(List<ImageItem> imageItems) {
+            public File conver(ImageItem item) {
+                return new File(item.path);
+            }
+
+            @Override
+            public void assignin(ImageItem item, File compressFile) {
+                item.compressPath = compressFile.getAbsolutePath();
+            }
+        }, new BatchCompressTask.OnBatchCompressListener<ImageItem>() {
+            @Override
+            public void onStart() {
+                compressProgress.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onSuccess(List<ImageItem> result) {
+                compressProgress.setVisibility(View.GONE);
                 if (mConfig.listener != null) {
-                    mConfig.listener.onSelect(imageItems);
+                    mConfig.listener.onSelect(result);
                 }
+            }
+
+            @Override
+            public void onComplete() {
                 finish();
             }
-        }).execute(data);
+        });
     }
 
 

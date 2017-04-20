@@ -10,8 +10,11 @@ import java.util.List;
 
 /**
  * RecyclerView的通用Adapter
+ * <p/>
+ * 构造方法中的参数int... layoutIds用于多item类型:
+ * 如果传入多个布局，需要复写getItemViewType，返回值用于layoutIds数组的角标
  *
- * @author yu
+ * @author lyu
  */
 public abstract class RecyclerAdapter<D> extends RecyclerView.Adapter<ViewHolder> implements DataHelper<D> {
 
@@ -142,7 +145,7 @@ public abstract class RecyclerAdapter<D> extends RecyclerView.Adapter<ViewHolder
     }
 
     @Override
-    public void refreshWithNewData(List<D> items) {
+    public void refreshData(List<D> items) {
         mDataSet.clear();
         if (items != null && !items.isEmpty())
             mDataSet.addAll(items);

@@ -12,7 +12,7 @@ import android.view.ViewTreeObserver;
 import android.widget.PopupWindow;
 
 import com.yu.imgpicker.R;
-import com.yu.imgpicker.adapter.ImgFolderAdapter;
+import com.yu.imgpicker.adapter.ImageFolderAdapter;
 import com.yu.imgpicker.adapter.baseadapter.RecyclerAdapter;
 import com.yu.imgpicker.entity.ImageFolder;
 import com.yu.imgpicker.utils.ScreenUtils;
@@ -20,14 +20,14 @@ import com.yu.imgpicker.utils.ScreenUtils;
 
 /**
  * 选择图片文件夹的弹层
- * Created by lyu on 2017/4/14.
+ * Created by lyu on 2017/4/17.
  */
 public class FolderPopUpWindow extends PopupWindow implements View.OnClickListener {
 
     private RecyclerView recyclerView;
     private OnItemClickListener onItemClickListener;
 
-    public FolderPopUpWindow(final Context context, final ImgFolderAdapter adapter) {
+    public FolderPopUpWindow(final Context context, final ImageFolderAdapter adapter) {
         super(context);
 
         final View view = View.inflate(context, R.layout.pop_folder, null);

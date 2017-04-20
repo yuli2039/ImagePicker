@@ -17,9 +17,10 @@ import java.util.List;
 import java.util.Set;
 
 /**
- *
+ * 主页适配器
+ * Created by lyu on 2017/4/14.
  */
-public class ImgGridAdapter extends RecyclerAdapter<ImageItem> {
+public class ImageGridAdapter extends RecyclerAdapter<ImageItem> {
 
     private static final int ITEM_TYPE_IMAGE = 0;
     private static final int ITEM_TYPE_CAMERA = 1;
@@ -31,7 +32,7 @@ public class ImgGridAdapter extends RecyclerAdapter<ImageItem> {
     private Set<ImageItem> selectedImages;
     private OnSelectedListSizeChangeListener listener;
 
-    public ImgGridAdapter(Context context, List<ImageItem> data) {
+    public ImageGridAdapter(Context context, List<ImageItem> data) {
         super(data, R.layout.adapter_image_list_item, R.layout.adapter_camera_item);
         this.context = context;
         ImagePicker imgPicker = ImagePicker.getInstance();

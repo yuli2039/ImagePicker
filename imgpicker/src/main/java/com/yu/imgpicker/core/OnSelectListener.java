@@ -5,7 +5,8 @@ import com.yu.imgpicker.entity.ImageItem;
 import java.util.List;
 
 /**
- * Created by yu on 2017/4/17.
+ * 选择图片的回调
+ * Created by lyu on 2017/4/17.
  */
 public interface OnSelectListener {
     // 选择成功，单选时只有1张

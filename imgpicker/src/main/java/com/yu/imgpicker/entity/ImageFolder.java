@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
+ * 图片文件夹对象
+ *
+ * @author lyu
  */
 public class ImageFolder implements Serializable {
 

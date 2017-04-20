@@ -18,7 +18,7 @@ import java.util.Set;
  */
 public class ImagePicker {
 
-    private PickerConfig mConfig;
+    private ImagePickerConfig mConfig;
 
     private List<ImageFolder> mImageFolders;      //所有的图片文件夹
     private Set<ImageItem> mSelectedImages = new HashSet<>();   //选中的图片集合
@@ -31,11 +31,11 @@ public class ImagePicker {
         private static ImagePicker INSTANCE = new ImagePicker();
     }
 
-    public PickerConfig getConfig() {
+    public ImagePickerConfig getConfig() {
         return mConfig;
     }
 
-    public void setConfig(PickerConfig mConfig) {
+    public void setConfig(ImagePickerConfig mConfig) {
         this.mConfig = mConfig;
     }
 
