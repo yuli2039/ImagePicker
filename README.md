@@ -1,7 +1,13 @@
 # ImagePicker
 仿微信照片选择组件
 
-###使用方法
+##演示
+ ![image](https://github.com/yuli2039/ImagePicker/blob/master/image/image1.jpg)
+ ![image](https://github.com/yuli2039/ImagePicker/blob/master/image/image2.jpg)
+ ![image](https://github.com/yuli2039/ImagePicker/blob/master/image/image3.jpg)
+
+##使用方法
+
 1)初始化
 ```java
        ImagePickerConfig config = new ImagePickerConfig.Builder()
@@ -42,7 +48,7 @@
 	ImagePicker.getInstance().open(MainActivity.this, 5);// 选5张
 ```
 
-2)清空引用
+3)清空引用
 ```java
     @Override
     protected void onDestroy() {
@@ -50,3 +56,5 @@
         ImagePicker.getInstance().clear();
     }
 ```
+
+##TODO 发布到中央仓库
