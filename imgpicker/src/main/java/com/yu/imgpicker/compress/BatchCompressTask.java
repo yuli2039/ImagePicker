@@ -8,8 +8,7 @@ import java.util.List;
 
 
 /**
- * 批量压缩图片任务类
- * 传入一个图片集合List<ImageEntity>,压缩之后，把压缩后的地址赋值给对应ImageEntity，然后返回原集合
+ * 批量压缩图片任务类,传入一个图片集合,压缩之后，把压缩后的地址赋值给对应ImageEntity，然后返回原集合
  * Created by lyu on 2017/4/20.
  */
 public class BatchCompressTask<T> extends AsyncTask<List<T>, Void, List<T>> {
@@ -76,6 +75,8 @@ public class BatchCompressTask<T> extends AsyncTask<List<T>, Void, List<T>> {
 
     /**
      * 批量压缩监听
+     *
+     * @param <T>
      */
     public interface OnBatchCompressListener<T> {
         void onStart();

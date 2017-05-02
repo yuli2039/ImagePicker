@@ -92,7 +92,7 @@ public class ImageGridAdapter extends RecyclerAdapter<ImageItem> {
                         holder.setVisibility(R.id.mask, View.GONE);
                         selectedImages.remove(item);
                     }
-                    // 回调选中的图片数量改变
+                    //  回调选中的图片数量改变
                     if (limited > 1 && listener != null) {
                         listener.onChange();
                     }

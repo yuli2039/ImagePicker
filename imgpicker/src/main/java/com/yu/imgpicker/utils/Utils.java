@@ -44,8 +44,8 @@ public class Utils {
 
         Intent intent = new Intent();
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //这一句表示对目标应用临时授权该Uri所代表的文件
-        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);//设置Action为拍照
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);//将拍取的照片保存到指定URI
+        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);// 设置Action为拍照
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);// 将拍取的照片保存到指定URI
         activity.startActivityForResult(intent, requestCode);
 
         return file;
@@ -81,7 +81,7 @@ public class Utils {
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         intent.putExtra("noFaceDetection", true);
 
-        //将存储图片的uri读写权限授权给剪裁工具应用，否则会出现无法存储裁剪图片的情况
+        // 将存储图片的uri读写权限授权给剪裁工具应用，否则会出现无法存储裁剪图片的情况
         List<ResolveInfo> resInfoList = activity.getPackageManager()
                 .queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
         for (ResolveInfo resolveInfo : resInfoList) {

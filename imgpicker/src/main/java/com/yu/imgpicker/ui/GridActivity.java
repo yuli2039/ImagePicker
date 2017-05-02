@@ -91,7 +91,7 @@ public class GridActivity extends BaseActivity implements View.OnClickListener {
                     data.add(imageItem);
 
                     if (mConfig.compress) {
-                        compressAndFinish(data);// 单选压缩
+                        compressAndFinish(data);//  单选压缩
                     } else {
                         callListenerSingleSelected(data);
                         finish();
@@ -170,7 +170,7 @@ public class GridActivity extends BaseActivity implements View.OnClickListener {
             mBtnPre.setVisibility(View.GONE);
         }
 
-        // 设置recyclerview
+        //  设置recyclerview
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new DividerGridItemDecoration(this));
@@ -188,7 +188,7 @@ public class GridActivity extends BaseActivity implements View.OnClickListener {
         mRecyclerView.setAdapter(mGridAdapter);
 
 
-        // 设置文件夹选择弹窗
+        //  设置文件夹选择弹窗
         mFolderAdapter = new ImageFolderAdapter(this, null);
         mFolderPopUpWindow = new FolderPopUpWindow(this, mFolderAdapter);
         mFolderPopUpWindow.setOnItemClickListener(new FolderPopUpWindow.OnItemClickListener() {
@@ -254,24 +254,24 @@ public class GridActivity extends BaseActivity implements View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQUEST_PREVIEW_CODE:
-                // 预览页面返回,肯定是多选
+                //  预览页面返回,肯定是多选
                 if (resultCode == RESULT_CANCELED) {
                     mGridAdapter.notifyDataSetChanged();
                 } else {
-                    // 预览页面点击完成按钮
+                    //  预览页面点击完成按钮
                     callListenerMultiSelected();
                 }
                 break;
             case REQUEST_CAPTURE_CODE:
                 if (resultCode == RESULT_OK) {
                     if (mConfig.limited == 1 && mConfig.needCrop) {
-                        // 拍照之后裁剪，只有单选裁剪才生效
+                        //  拍照之后裁剪，只有单选裁剪才生效
                         mCropFile = Utils.crop(this, REQUEST_CROP_CODE, mPhotoFile, mConfig);
                     } else if (mConfig.compress) {
-                        // 拍照之后压缩
+                        //  拍照之后压缩
                         compressAndFinish(Utils.generateImageItemList(mPhotoFile));
                     } else {
-                        // 拍照完成后不裁剪也不压缩，直接返回
+                        //  拍照完成后不裁剪也不压缩，直接返回
                         callListenerSingleSelected(mPhotoFile);
                         finish();
                     }
@@ -293,6 +293,8 @@ public class GridActivity extends BaseActivity implements View.OnClickListener {
 
     /**
      * 错误回调
+     *
+     * @param msg 消息
      */
     private void callListenerWithFail(String msg) {
         if (mConfig.listener != null) {
@@ -302,6 +304,8 @@ public class GridActivity extends BaseActivity implements View.OnClickListener {
 
     /**
      * 单选回调，不压缩和裁剪
+     *
+     * @param data 回调的集合
      */
     private void callListenerSingleSelected(List<ImageItem> data) {
         if (mConfig.listener != null) {
@@ -311,6 +315,8 @@ public class GridActivity extends BaseActivity implements View.OnClickListener {
 
     /**
      * 单选回调(拍照或者裁剪后，通过file生成ImageItem)
+     *
+     * @param file 图片源文件
      */
     private void callListenerSingleSelected(File file) {
         if (mConfig.listener != null) {
@@ -323,7 +329,7 @@ public class GridActivity extends BaseActivity implements View.OnClickListener {
      */
     private void callListenerMultiSelected() {
         if (mConfig.listener != null) {
-            if (mConfig.compress) {// 多选压缩
+            if (mConfig.compress) {//  多选压缩
                 compressAndFinish(new ArrayList<>(mImgPicker.getSelectedImages()));
             } else {
                 mConfig.listener.onSelect(new ArrayList<>(mImgPicker.getSelectedImages()));
@@ -334,6 +340,8 @@ public class GridActivity extends BaseActivity implements View.OnClickListener {
 
     /**
      * 压缩图片之后回调接口并关闭页面
+     *
+     * @param data 待压缩的图片集合
      */
     private void compressAndFinish(List<ImageItem> data) {
         mCompresor.compressToFileAsync(data, new BatchCompressTask.Converter<ImageItem>() {

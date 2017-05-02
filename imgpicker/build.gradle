@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 25
@@ -25,4 +26,14 @@ dependencies {
     compile 'com.github.chrisbanes.photoview:library:1.2.4'
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
+}
+
+
+publish {
+    userOrg = 'yuli'
+    groupId = 'com.lyu'
+    artifactId = 'imagepicker'
+    publishVersion = '1.0.0'
+    desc = 'this is a library for choose photo'
+    website = 'https://github.com/yuli2039/ImagePicker'
 }

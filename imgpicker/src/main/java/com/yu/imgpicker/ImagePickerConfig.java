@@ -15,27 +15,27 @@ import java.io.Serializable;
  */
 public class ImagePickerConfig {
 
-    public int limited = 9;                     // 最多选择图片数
-    public boolean showCamera;                  // 第一个item是否显示相机
+    public int limited = 9;                     //  最多选择图片数
+    public boolean showCamera;                  //  第一个item是否显示相机
 
-    public int backResId;                       // 返回按钮图标
-    public String titleText;                    // 标题
-    public int titleBarColor;                   // titlebar背景色
-    public int titleTextColor;                  // 标题颜色
-    public int btnTextColor;                    // 确定按钮文字颜色
-    public int btnResId;                        // 确定按钮背景色.
+    public int backResId;                       //  返回按钮图标
+    public String titleText;                    //  标题
+    public int titleBarColor;                   //  titlebar背景色
+    public int titleTextColor;                  //  标题颜色
+    public int btnTextColor;                    //  确定按钮文字颜色
+    public int btnResId;                        //  确定按钮背景色.
 
-    public ImageLoader loader;                  // 自定义图片加载器
-    public OnSelectListener listener;           // 选择完成的回调;
+    public ImageLoader loader;                  //  自定义图片加载器
+    public OnSelectListener listener;           //  选择完成的回调;
 
-    public boolean needCrop;                    // 是否裁剪，仅单选有效
-    public int aspectX = 1;                     // 裁剪输出大小↓↓↓↓
+    public boolean needCrop;                    //  是否裁剪，仅单选有效
+    public int aspectX = 1;                     //  裁剪输出大小↓↓↓↓
     public int aspectY = 1;
     public int outputX = 400;
     public int outputY = 400;
 
-    public boolean compress;                    // 是否压缩
-    public float maxWidth;                      // 压缩参数↓↓↓↓
+    public boolean compress;                    //  是否压缩
+    public float maxWidth;                      //  压缩参数↓↓↓↓
     public float maxHeight;
     public int quality;
 
@@ -93,7 +93,7 @@ public class ImagePickerConfig {
             return this;
         }
 
-        public Builder maxWidthAndHeight(float maxWidth,float maxHeight) {
+        public Builder maxWidthAndHeight(float maxWidth, float maxHeight) {
             this.maxWidth = maxWidth;
             this.maxHeight = maxHeight;
             return this;

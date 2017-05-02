@@ -10,7 +10,6 @@ import java.util.List;
 
 /**
  * RecyclerView的通用Adapter
- * <p/>
  * 构造方法中的参数int... layoutIds用于多item类型:
  * 如果传入多个布局，需要复写getItemViewType，返回值用于layoutIds数组的角标
  *

@@ -12,8 +12,8 @@ import java.util.List;
  */
 public class PreviewData implements Parcelable {
 
-    public static final int TYPE_PREVIEW = 0;// 勾选图片后，点击预览按钮进入，只有已选的图片，可以取消选择
-    public static final int TYPE_DELETE = 1;// 选择完成后，发布前点击图片进入，可以删除已选图片（微信选择完成后，点发表之前那里）
+    public static final int TYPE_PREVIEW = 0;//  勾选图片后，点击预览按钮进入，只有已选的图片，可以取消选择
+    public static final int TYPE_DELETE = 1;//  选择完成后，发布前点击图片进入，可以删除已选图片（微信选择完成后，点发表之前那里）
 
     public int type = TYPE_PREVIEW;
     public int currentPosition = 0;

@@ -20,8 +20,8 @@ public class ImagePicker {
 
     private ImagePickerConfig mConfig;
 
-    private List<ImageFolder> mImageFolders;      //所有的图片文件夹
-    private Set<ImageItem> mSelectedImages = new HashSet<>();   //选中的图片集合
+    private List<ImageFolder> mImageFolders;      // 所有的图片文件夹
+    private Set<ImageItem> mSelectedImages = new HashSet<>();   // 选中的图片集合
 
     public static ImagePicker getInstance() {
         return InstanceHolder.INSTANCE;
@@ -51,7 +51,7 @@ public class ImagePicker {
         return mSelectedImages;
     }
 
-    // ***********************************************************
+    //  ***********************************************************
     public void open(Activity context) {
         mSelectedImages.clear();
         context.startActivity(new Intent(context, GridActivity.class));
@@ -59,6 +59,9 @@ public class ImagePicker {
 
     /**
      * 以新的数量打开图库，比如总共能选9张，第一次选了3张，第二次可以更新数量为6张
+     *
+     * @param context context
+     * @param limit   最多选择的数量
      */
     public void open(Activity context, @IntRange(from = 1, to = 9) int limit) {
         mSelectedImages.clear();
@@ -66,7 +69,11 @@ public class ImagePicker {
         context.startActivity(new Intent(context, GridActivity.class));
     }
 
+    /**
+     * 释放资源
+     */
     public void clear() {
+        mImageFolders.clear();
         mImageFolders = null;
         mSelectedImages.clear();
     }

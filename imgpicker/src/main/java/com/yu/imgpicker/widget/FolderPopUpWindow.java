@@ -56,7 +56,7 @@ public class FolderPopUpWindow extends PopupWindow implements View.OnClickListen
                 recyclerView.setLayoutParams(listParams);
             }
         });
-//        setAnimationStyle(R.style.popwin_anim_style);// TODO: 2017/4/14  动画
+//         setAnimationStyle(R.style.popwin_anim_style);//  TODO: 2017/4/14  动画
 
         adapter.setOnItemClickListener(new RecyclerAdapter.OnItemClickListener() {
             @Override

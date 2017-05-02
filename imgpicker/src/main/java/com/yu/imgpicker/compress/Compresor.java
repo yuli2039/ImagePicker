@@ -24,9 +24,9 @@ public class Compresor {
     int quality = 80;
     Bitmap.CompressFormat compressFormat = Bitmap.CompressFormat.JPEG;
     Bitmap.Config bitmapConfig = Bitmap.Config.ARGB_8888;
-    String destinationDirectoryPath;        // 存储路径
-    String fileNamePrefix;                  // 文件名前缀
-    String fileName;                        // 文件名
+    String destinationDirectoryPath;        //  存储路径
+    String fileNamePrefix;                  //  文件名前缀
+    String fileName;                        //  文件名
 
     private Compresor(Context context) {
         this.context = context;

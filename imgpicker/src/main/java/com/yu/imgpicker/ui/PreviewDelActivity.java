@@ -29,12 +29,12 @@ public class PreviewDelActivity extends BaseActivity {
     public static final int REQUEST_PREVIEW_CODE = 0x03;
 
     public static final String KEY_PREVIEW_DATA = "KEY_PREVIEW_DATA";
-    public static final String KEY_PREVIEW_DEL_DATA = "KEY_PREVIEW_DEL_DATA";// 删除之后回传集合的key
+    public static final String KEY_PREVIEW_DEL_DATA = "KEY_PREVIEW_DEL_DATA";//  删除之后回传集合的key
 
-    protected int type;                             // 预览的type，@see PreviewData.type
-    protected List<ImageItem> mImageItems;          // 跳转进ImagePreview的图片文件夹
-    protected int mCurrentPosition = 0;             // 跳转进ImagePreview时的序号，第几个图片
-    protected TextView mTitleCount;                 // 显示当前图片的位置  例如  5/31
+    protected int type;                             //  预览的type，@see PreviewData.type
+    protected List<ImageItem> mImageItems;          //  跳转进ImagePreview的图片文件夹
+    protected int mCurrentPosition = 0;             //  跳转进ImagePreview时的序号，第几个图片
+    protected TextView mTitleCount;                 //  显示当前图片的位置  例如  5/31
 
     protected View topBar;
     protected View bottomBar;

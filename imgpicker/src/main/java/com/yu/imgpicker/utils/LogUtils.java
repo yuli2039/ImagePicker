@@ -7,8 +7,8 @@ import android.util.Log;
  */
 public class LogUtils {
 
-    private static final String LOG_TAG = "@ImagePicker"; // 默认的tag
-    private static final int LOG_LEVEL = LogLevel.INFO; // 日志等级过滤，参照logcat，例如i表示输出i以上的log
+    private static final String LOG_TAG = "@ImagePicker"; //  默认的tag
+    private static final int LOG_LEVEL = LogLevel.INFO; //  日志等级过滤，参照logcat，例如i表示输出i以上的log
 
     private interface LogLevel {
         int VERBOSE = 0;
@@ -16,7 +16,7 @@ public class LogUtils {
         int INFO = 2;
         int WARN = 3;
         int ERROR = 4;
-        int NONE = 5; // 不输出日志
+        int NONE = 5; //  不输出日志
     }
 
     /*************************** Error ********************************/
@@ -63,7 +63,7 @@ public class LogUtils {
         d(LOG_TAG, msg);
     }
 
-    public static void d(String tag, Object msg) {// 调试信息
+    public static void d(String tag, Object msg) {//  调试信息
         d(tag, msg, null);
     }
 

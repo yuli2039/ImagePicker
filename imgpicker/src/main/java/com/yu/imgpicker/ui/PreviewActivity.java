@@ -18,7 +18,7 @@ import java.util.Set;
  */
 public class PreviewActivity extends PreviewDelActivity {
 
-    private Set<ImageItem> mSelectedImages;   //所有已经选中的图片
+    private Set<ImageItem> mSelectedImages;   // 所有已经选中的图片
 
     public static void start(Activity context, List<ImageItem> data, int currentPosition) {
         Intent intent = new Intent(context, PreviewActivity.class);
