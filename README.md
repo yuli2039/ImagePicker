@@ -8,7 +8,7 @@
 ## 使用方法
 
 ```
-compile 'com.lyu:imagepicker:1.0.0'
+
 ```
 
 1)初始化
