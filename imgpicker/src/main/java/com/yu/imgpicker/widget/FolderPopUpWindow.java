@@ -33,7 +33,7 @@ public class FolderPopUpWindow extends PopupWindow implements View.OnClickListen
         final View view = View.inflate(context, R.layout.pop_folder, null);
         view.findViewById(R.id.margin).setOnClickListener(this);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        recyclerView = (RecyclerView) view.findViewById(R.id.folderRv);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));
