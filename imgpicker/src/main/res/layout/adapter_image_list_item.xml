@@ -5,25 +5,28 @@
     android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/ivThumb"
+        android:id="@id/ivThumb"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:src="@mipmap/default_image" />
 
     <View
-        android:id="@+id/mask"
+        android:id="@id/mask"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/mask_color"
         android:visibility="gone" />
 
     <CheckBox
-        android:id="@+id/cbCheck"
+        android:id="@id/cbSelected"
         style="@style/SuperCheckboxTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="@dimen/m2"
+        android:layout_marginRight="@dimen/m2"
+        android:layout_marginTop="@dimen/m2" />
 
 </com.yu.imgpicker.widget.SquareRelativeLayout>

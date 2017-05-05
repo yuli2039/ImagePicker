@@ -71,11 +71,11 @@ public class ImageGridAdapter extends RecyclerAdapter<ImageItem> {
     protected void onBindData(final ViewHolder holder, final int position, final ImageItem item) {
         if (getItemViewType(position) == ITEM_TYPE_IMAGE) {
             boolean selected = selectedImages.contains(item);
-            holder.setChecked(R.id.cbCheck, selected)
+            holder.setChecked(R.id.cbSelected, selected)
                     .setVisibility(R.id.mask, selected ? View.VISIBLE : View.GONE)
-                    .setVisibility(R.id.cbCheck, limited > 1 ? View.VISIBLE : View.GONE);
+                    .setVisibility(R.id.cbSelected, limited > 1 ? View.VISIBLE : View.GONE);
 
-            final CheckBox cbCheck = holder.findViewById(R.id.cbCheck);
+            final CheckBox cbCheck = holder.findViewById(R.id.cbSelected);
             cbCheck.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.yu.imgpicker.R;
@@ -30,10 +31,27 @@ public class FolderPopUpWindow extends PopupWindow implements View.OnClickListen
     public FolderPopUpWindow(final Context context, final ImageFolderAdapter adapter) {
         super(context);
 
-        final View view = View.inflate(context, R.layout.pop_folder, null);
-        view.findViewById(R.id.margin).setOnClickListener(this);
+        final LinearLayout view = new LinearLayout(context);
+        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+        view.setOrientation(LinearLayout.VERTICAL);
+        recyclerView = new RecyclerView(context);
+        recyclerView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        recyclerView.setBackgroundColor(context.getResources().getColor(android.R.color.white));
+        view.addView(recyclerView);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.folderRv);
+        View marginView = new View(context);
+        marginView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                (int) context.getResources().getDimension(R.dimen.bar_height)));
+        marginView.setOnClickListener(this);
+        view.addView(marginView);
+
+//        final View view = View.inflate(context, R.layout.pop_folder, null);
+//        view.findViewById(R.id.margin).setOnClickListener(this);
+
+//        recyclerView = (RecyclerView) view.findViewById(R.id.folderRv);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL));

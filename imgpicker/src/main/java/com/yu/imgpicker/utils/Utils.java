@@ -79,7 +79,7 @@ public class Utils {
         intent.putExtra("return-data", false);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-        intent.putExtra("noFaceDetection", true);
+        intent.putExtra("noFaceDetection", false);
 
         // 将存储图片的uri读写权限授权给剪裁工具应用，否则会出现无法存储裁剪图片的情况
         List<ResolveInfo> resInfoList = activity.getPackageManager()

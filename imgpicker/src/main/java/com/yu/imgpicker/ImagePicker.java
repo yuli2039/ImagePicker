@@ -73,7 +73,6 @@ public class ImagePicker {
      * 释放资源
      */
     public void clear() {
-        mImageFolders.clear();
         mImageFolders = null;
         mSelectedImages.clear();
     }

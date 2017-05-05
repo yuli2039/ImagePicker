@@ -74,9 +74,9 @@ public class PreviewDelActivity extends BaseActivity {
     private void initView() {
         bottomBar = findViewById(R.id.bottomBar);
         bottomBar.setVisibility(type == PreviewData.TYPE_DELETE ? View.GONE : View.VISIBLE);
-        cbCheck = (CheckBox) bottomBar.findViewById(R.id.cb_check);
+        cbCheck = (CheckBox) bottomBar.findViewById(R.id.cbSelected);
 
-        topBar = findViewById(R.id.topBar);
+        topBar = findViewById(R.id.preTopBar);
         if (mConfig.titleBarColor != -1)
             topBar.setBackgroundColor(mConfig.titleBarColor);
 

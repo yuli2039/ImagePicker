@@ -133,7 +133,7 @@ public class GridActivity extends BaseActivity implements View.OnClickListener {
         mFolderRoot = (RelativeLayout) findViewById(R.id.rlFolderRoot);
         compressProgress = findViewById(R.id.compress);
 
-        View topBar = findViewById(R.id.topBar);
+        View topBar = findViewById(R.id.preTopBar);
         if (mConfig.titleBarColor != -1)
             topBar.setBackgroundColor(mConfig.titleBarColor);
 
@@ -171,7 +171,7 @@ public class GridActivity extends BaseActivity implements View.OnClickListener {
         }
 
         //  设置recyclerview
-        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.gridRv);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new DividerGridItemDecoration(this));
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));

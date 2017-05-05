@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
                 .imageLoader(new ImageLoader() {    // 不限制图片框架，需要自己实现
                     @Override
                     public void displayImage(Context context, String path, ImageView imageView) {
-                        Glide.with(context).load(path).centerCrop().into(imageView);
+                        Glide.with(context).load(path).into(imageView);
                     }
                 })
                 .showCamera(true)                   // 第一个item是否显示相机,默认true
@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
 //                .btnTextColor(Color.parseColor("#ffffff"))
 //                .backResId(R.mipmap.ic_launcher)
 
-//                .needCrop(true)                   // 是否裁剪（只有单选时才有效）,如果裁剪就不会执行压缩
-//                .cropSize(1, 1, 400, 400)         // 裁剪比例和大小
+                .needCrop(true)                   // 是否裁剪（只有单选时才有效）,如果裁剪就不会执行压缩
+                .cropSize(1, 1, 400, 400)         // 裁剪比例和大小
 //                .compress(false)                  // 是否压缩,默认ture
 //                .maxWidthAndHeight(720, 960)      // 压缩最大尺寸，默认720*960
 //                .quality(80)                      // 压缩质量，默认80
@@ -82,7 +82,8 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     // 点击加号 ---> 选择图片
                     // 比如总共能选9张，第一次选了三张，第二次只能选6张，就用这个方法
-                    ImagePicker.getInstance().open(MainActivity.this, maxSize - adapter.getDataSet().size());
+//                    ImagePicker.getInstance().open(MainActivity.this, maxSize - adapter.getDataSet().size());
+                    ImagePicker.getInstance().open(MainActivity.this);
                 }
             }
         });
