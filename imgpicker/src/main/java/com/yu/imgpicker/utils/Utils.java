@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 
 import com.yu.imgpicker.ImagePickerConfig;
+import com.yu.imgpicker.compress.FileUtil;
 import com.yu.imgpicker.entity.ImageItem;
 
 import java.io.File;
@@ -29,6 +30,13 @@ public class Utils {
     private static final String COMPRESS_DIR_PATH = ROOT_PATH + "compress/";
     private static final String CAMERA_DIR_PATH = ROOT_PATH + "camera/";
     private static final String CROP_DIR_PATH = ROOT_PATH + "crop/";
+
+    /**
+     * 删除临时文件
+     */
+    public static void deleteTempFile() {
+        FileUtil.deleteFile(new File(ROOT_PATH));
+    }
 
     /**
      * 调用相机拍摄一张图片

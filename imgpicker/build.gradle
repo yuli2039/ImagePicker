@@ -8,8 +8,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 6
-        versionName "1.0.5"
+        versionCode VERSION_CODE as int
+        versionName VERSION_NAME
 
     }
     buildTypes {
@@ -33,7 +33,7 @@ publish {
     userOrg = 'yuli'
     groupId = 'com.lyu'
     artifactId = 'imagepicker'
-    publishVersion = '1.0.5'
+    publishVersion = '1.0.6'
     desc = 'this is a library for choose photo'
     website = 'https://github.com/yuli2039/ImagePicker'
 }

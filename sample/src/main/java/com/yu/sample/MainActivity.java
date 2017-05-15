@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
 //                .btnTextColor(Color.parseColor("#ffffff"))
 //                .backResId(R.mipmap.ic_launcher)
 
-                .needCrop(true)                   // 是否裁剪（只有单选时才有效）,如果裁剪就不会执行压缩
-                .cropSize(1, 1, 400, 400)         // 裁剪比例和大小
+//                .needCrop(true)                   // 是否裁剪（只有单选时才有效）,如果裁剪就不会执行压缩
+//                .cropSize(1, 1, 400, 400)         // 裁剪比例和大小
 //                .compress(false)                  // 是否压缩,默认ture
 //                .maxWidthAndHeight(720, 960)      // 压缩最大尺寸，默认720*960
 //                .quality(80)                      // 压缩质量，默认80

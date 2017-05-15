@@ -19,8 +19,8 @@ public class Compresor {
     private static final String FILES_PATH = "compresor";
 
     Context context;
-    float maxWidth = 720.0f;
-    float maxHeight = 960.0f;
+    float maxWidth = 600.0f;
+    float maxHeight = 800.0f;
     int quality = 80;
     Bitmap.CompressFormat compressFormat = Bitmap.CompressFormat.JPEG;
     Bitmap.Config bitmapConfig = Bitmap.Config.ARGB_8888;
@@ -34,7 +34,7 @@ public class Compresor {
     }
 
     /**
-     * 批量一步压缩
+     * 批量异步压缩
      *
      * @param entities  对象集合
      * @param converter 将对象转换为图片文件对象的转换器

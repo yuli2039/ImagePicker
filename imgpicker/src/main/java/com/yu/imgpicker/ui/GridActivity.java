@@ -201,6 +201,7 @@ public class GridActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void loadImages() {
+        Utils.deleteTempFile();
         new ImageDataSource(this, null, new ImageDataSource.OnImagesLoadedListener() {
             @Override
             public void onImagesLoaded(List<ImageFolder> imageFolders) {
@@ -210,6 +211,10 @@ public class GridActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void loadCompleted(List<ImageFolder> imageFolders) {
+        for (int i = 0; i < imageFolders.size(); i++) {
+            imageFolders.get(i).selected = i == 0;
+        }
+
         mImgPicker.setImageFolders(imageFolders);
         mFolderAdapter.refreshData(imageFolders);
         mGridAdapter.refreshData(imageFolders.get(0).images);

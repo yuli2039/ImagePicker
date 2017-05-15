@@ -11,7 +11,7 @@ import java.io.File;
 /**
  * 文件工具类
  */
-class FileUtil {
+public class FileUtil {
 
     private FileUtil() {
         throw new UnsupportedOperationException("u can't instantiate me...");
@@ -84,6 +84,25 @@ class FileUtil {
             String realPath = cursor.getString(index);
             cursor.close();
             return realPath;
+        }
+    }
+
+    /**
+     * 递归删除文件
+     */
+    public static boolean deleteFile(File file) {
+        if (!file.exists())
+            return true;
+
+        if (file.isFile()) {
+            return file.delete();
+        } else {
+            File[] files = file.listFiles();
+            for (File file1 : files) {
+                deleteFile(file1);
+            }
+            file.delete();
+            return true;
         }
     }
 

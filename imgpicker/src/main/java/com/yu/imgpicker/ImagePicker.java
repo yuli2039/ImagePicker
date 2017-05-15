@@ -7,6 +7,7 @@ import android.support.annotation.IntRange;
 import com.yu.imgpicker.entity.ImageFolder;
 import com.yu.imgpicker.entity.ImageItem;
 import com.yu.imgpicker.ui.GridActivity;
+import com.yu.imgpicker.utils.Utils;
 
 import java.util.HashSet;
 import java.util.List;
@@ -75,5 +76,6 @@ public class ImagePicker {
     public void clear() {
         mImageFolders = null;
         mSelectedImages.clear();
+        Utils.deleteTempFile();
     }
 }
