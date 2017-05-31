@@ -18,6 +18,7 @@ public class ImageItem implements Serializable {
     public long addTime;      // 图片的创建时间
 
     public String compressPath = ""; //  压缩后的地址，可能没有
+    public String remotePath = ""; //  上传后的地址，可能没有
 
     @Override
     public int hashCode() {
